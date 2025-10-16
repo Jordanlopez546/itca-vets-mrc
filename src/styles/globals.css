@@ -3,3 +3,33 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer utilities {
+  /* 🌈 Smooth AI Gradient Background */
+  .bg-ai-gradient {
+    background: linear-gradient(25deg, #D9476A 70%, #E4794B 3%, #FBE10B 60%);
+    background-size: 200% 200%;
+    animation: aiFlow 8s ease-in-out infinite alternate;
+  }
+
+  /* 🩸 Gradient Border with Flow */
+  .border-ai-gradient {
+    position: relative;
+    background: linear-gradient(25deg, #D9476A 0%, #E4794B 40%, #FBE10B 100%);
+    background-size: 200% 200%;
+    animation: aiFlow 8s ease-in-out infinite alternate;
+    padding: 2px;
+    border-radius: 1rem;
+  }
+
+  /* 🌊 Animation keyframes for flow */
+  @keyframes aiFlow {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+}
+

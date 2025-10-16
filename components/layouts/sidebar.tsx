@@ -21,13 +21,11 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       )}
 
       <aside
-        className={`fixed z-50 bg-white dark:bg-gray-800 shadow-md transition-transform duration-300 h-screen w-64 flex flex-col
+        className={`fixed z-50 bg-white dark:bg-[#0a0a0ae0] shadow-md transition-transform duration-300 h-screen w-64 flex flex-col
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="p-6 flex justify-between items-center dark:border-gray-700">
-          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-            PneumoScan
-          </h1>
+          <img src="/PNEUOMONIASCAN.png" alt="Logo" className="h-8 mx-auto" />
           <button
             onClick={onClose}
             className="lg:hidden text-gray-600 dark:text-gray-300"
@@ -36,15 +34,15 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-2 py-5 space-y-5">
+        <nav className="flex-1 overflow-y-auto px-2 py-5 space-y-2">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+              className={`flex dark:text-[#acacac] text-[#000000b2] items-center gap-3 px-4 py-2 rounded-lg transition ${
                 router.pathname === link.href
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-blue-900"
+                  ? "dark:bg-[#1d1d1d] bg-[#e4794b54] text-sm"
+                  : "text-sm hover:bg-[#e4794b3b] dark:hover:bg-[#131313]"
               }`}
             >
               {link.icon}
