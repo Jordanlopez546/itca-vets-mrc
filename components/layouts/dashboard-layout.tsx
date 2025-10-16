@@ -20,6 +20,7 @@ export default function DashboardLayout({
       >
         <DashboardHeader
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+          isSidebarOpen={isSidebarOpen}
         />
 
         <main className="flex-1 overflow-y-auto p-6 text-gray-900 dark:text-gray-100">

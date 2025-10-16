@@ -5,8 +5,10 @@ import { Moon, Sun, Menu } from "lucide-react";
 
 export default function DashboardHeader({
   onToggleSidebar,
+  isSidebarOpen,
 }: {
   onToggleSidebar: () => void;
+  isSidebarOpen: boolean;
 }) {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -22,13 +24,15 @@ export default function DashboardHeader({
           <button onClick={onToggleSidebar} className="cursor-pointer">
             <Menu className="text-gray-700 dark:text-gray-200" size={22} />
           </button>
-          <Image
-            width={200}
-            height={200}
-            src="/PNEUOMONIASCAN.svg"
-            alt="Logo"
-            className="h-8"
-          />
+          {!isSidebarOpen && (
+            <Image
+              width={200}
+              height={200}
+              src="/PNEUOMONIASCAN.svg"
+              alt="Logo"
+              className="h-8"
+            />
+          )}
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -46,14 +50,16 @@ export default function DashboardHeader({
         <button onClick={onToggleSidebar} className="cursor-pointer">
           <Menu className="text-[#E4794B]" size={22} />
         </button>
-        <div className="relative h-8 w-auto min-w-[100px]">
-          <Image
-            fill
-            alt="Logo"
-            className="object-contain"
-            src="/PNEUOMONIASCAN.png"
-          />
-        </div>
+        {!isSidebarOpen && (
+          <div className="relative h-8 w-auto mx-auto min-w-[100px]">
+            <Image
+              fill
+              alt="Logo"
+              className="object-contain"
+              src="/PNEUOMONIASCAN.png"
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex items-center w-fit gap-4">
