@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
-import { Home, Clock, Moon, Sun } from "lucide-react";
+import { Home, Clock, X } from "lucide-react";
 
-const Sidebar = () => {
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const router = useRouter();
-  const { theme, setTheme } = useTheme();
 
   const links = [
     { name: "Overview", href: "/", icon: <Home size={18} /> },
@@ -13,12 +16,34 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-white dark:bg-gray-800 shadow-md flex flex-col justify-between">
-      <div className="p-6">
-        <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-10">
-          PneumoScan
-        </h1>
-        <nav className="flex flex-col gap-3">
+    <>
+      {/* Overlay for mobile only */}
+      {isOpen && (
+        <div
+          onClick={onClose}
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+        ></div>
+      )}
+
+      <aside
+        className={`fixed z-50 bg-white dark:bg-gray-800 shadow-md transition-transform duration-300 h-screen w-64 flex flex-col
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+      >
+        {/* Top section with title */}
+        <div className="p-6 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
+          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            PneumoScan
+          </h1>
+          <button
+            className="lg:hidden text-gray-600 dark:text-gray-300"
+            onClick={onClose}
+          >
+            <X />
+          </button>
+        </div>
+
+        {/* Navigation links */}
+        <nav className="flex-1 overflow-y-auto px-6 py-5 space-y-2">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -34,17 +59,8 @@ const Sidebar = () => {
             </Link>
           ))}
         </nav>
-      </div>
-      <div className="p-6 border-t dark:border-gray-700 flex justify-between items-center">
-        <span className="text-sm">Theme</span>
-        <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
-        >
-          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-        </button>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 };
 
