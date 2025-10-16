@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "electron": "electron main.js",
+    "electron-build": "electron-builder --win"
   },
   "dependencies": {
     "lucide-react": "^0.545.0",
@@ -22,9 +24,27 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "electron": "^38.3.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.5",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "electron-builder": "^24.6.0"
+  },
+  "build": {
+    "appId": "com.pneumonia.ai",
+    "productName": "Pneumonia Diagnosis System",
+    "files": [
+      "**/*"
+    ],
+    "directories": {
+      "buildResources": "public"
+    },
+    "win": {
+      "icon": "public/icon.ico",
+      "target": [
+        "nsis"
+      ]
+    }
   }
 }
