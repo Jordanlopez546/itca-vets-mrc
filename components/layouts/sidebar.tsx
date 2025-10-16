@@ -28,7 +28,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           <img src="/PNEUOMONIASCAN.png" alt="Logo" className="h-8 mx-auto" />
           <button
             onClick={onClose}
-            className="lg:hidden text-gray-600 dark:text-gray-300"
+            className="lg:hidden text-gray-600 dark:text-gray-300 hover:text-[#E4794B] dark:hover:text-[#E4794B]"
           >
             <X />
           </button>
@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               href={link.href}
               className={`flex dark:text-[#acacac] text-[#000000b2] items-center gap-3 px-4 py-2 rounded-lg transition ${
                 router.pathname === link.href
-                  ? "dark:bg-[#1d1d1d] bg-[#e4794b54] text-sm"
+                  ? "dark:bg-[#1d1d1d] bg-[#e4794b54] text-sm text-[#E4794B]"
                   : "text-sm hover:bg-[#e4794b3b] dark:hover:bg-[#131313]"
               }`}
             >

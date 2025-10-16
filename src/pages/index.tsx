@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { AnalysisResult } from "../../types";
 import DashboardLayout from "../../components/layouts/dashboard-layout";
+import UploadDropzone from "../../components/upload-dropzone";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -121,7 +122,6 @@ export default function Overview() {
         modelExplanation: selectedOutcome.explanation,
       };
 
-      // Save to localStorage
       try {
         const history = JSON.parse(
           localStorage.getItem("pneumoHistory") || "[]"
@@ -137,7 +137,6 @@ export default function Overview() {
       setResult(analysisResult);
       setIsAnalyzing(false);
 
-      // Show result toast
       toast.success("Analysis complete!", {
         description: `Result: ${selectedOutcome.result} (${selectedOutcome.confidence}% confidence)`,
       });
@@ -154,134 +153,95 @@ export default function Overview() {
 
   return (
     <DashboardLayout>
-      {/* <h1 className="text-2xl font-bold mb-4">Overview</h1>
-      <p className="text-gray-600 dark:text-gray-400 mb-8">
-        Upload a chest X-ray image to detect pneumonia using our AI model.
-      </p> */}
+      <div className="h-full flex flex-col">
+        {!preview ? (
+          <UploadDropzone onDrop={handleDrop} onFileChange={handleFileChange} />
+        ) : (
+          <div className="space-y-6 h-full flex flex-col">
+            <div className="border-2 border-gray-300 dark:border-gray-700 rounded-lg p-6 flex justify-center bg-white dark:bg-gray-800">
+              <Image
+                width={500}
+                height={500}
+                src={preview}
+                alt="X-ray Preview"
+                className="max-h-96 rounded-md object-contain"
+              />
+            </div>
 
-      {/*==================== Upload Zone ====================*/}
-      {!preview ? (
-        <div
-          onDrop={handleDrop}
-          style={{ minHeight: "650px" }}
-          onDragOver={(e) => e.preventDefault()}
-          className="border-2 border-dashed border-[#3a3a3a49] dark:border-[#e4794b8c] rounded-lg text-center cursor-pointer dark:hover:bg-[#000000] transition flex items-center justify-center bg-[#e1e2c5] dark:bg-[#0c0c0c]"
-        >
-          <div>
-            <p className="text-gray-500 dark:text-gray-400 mb-3">
-              Drag & Drop an X-ray image here or click below
-            </p>
-            <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
-              Supported formats: JPEG, PNG, WebP (Max 10MB)
-            </p>
-            <input
-              type="file"
-              id="fileInput"
-              className="hidden"
-              onChange={handleFileChange}
-              accept="image/jpeg,image/jpg,image/png,image/webp"
-            />
-            <label
-              htmlFor="fileInput"
-              className="inline-block border-ai-gradient font-bold text-[#111111] rounded-lg hover:bg-[#c9511e] cursor-pointer transition"
-            >
-              <p className="dark:text-[#000000] text-[#000000cb] my-3 mx-8">Choose File</p>
-            </label>
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          {/*==================== Image Preview ====================*/}
-          <div className="border-2 border-gray-300 dark:border-gray-700 rounded-lg p-6 flex justify-center bg-white dark:bg-gray-800">
-            <Image
-              width={500}
-              height={500}
-              src={preview}
-              alt="X-ray Preview"
-              className="max-h-96 rounded-md object-contain"
-            />
-          </div>
-          {/*==================== End of Image Preview ====================*/}
-
-          {/*==================== Progress Bar ====================*/}
-          {isAnalyzing && (
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Analyzing X-ray...
-                </span>
-                <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                  {progress}%
-                </span>
+            {isAnalyzing && (
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Analyzing X-ray...
+                  </span>
+                  <span className="text-sm font-medium text-[#E4794B]">
+                    {progress}%
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+                  <div
+                    className="bg-[#E4794B] h-3 rounded-full transition-all duration-300 ease-out"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+            )}
+
+            {result && !isAnalyzing && (
+              <div className="space-y-6">
                 <div
-                  className="bg-blue-600 h-3 rounded-full transition-all duration-300 ease-out"
-                  style={{ width: `${progress}%` }}
-                ></div>
-              </div>
-            </div>
-          )}
-          {/*==================== End of Progress Bar ====================*/}
-
-          {/*==================== Results ====================*/}
-          {result && !isAnalyzing && (
-            <div className="space-y-6">
-              {/*==================== Result Card ====================*/}
-              <div
-                className={`p-6 rounded-lg border-2 ${
-                  result.result === "Pneumonia"
-                    ? "bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-700"
-                    : result.result === "Infiltration"
-                    ? "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-700"
-                    : "bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700"
-                }`}
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold mb-1">Diagnosis Result</h3>
-                    <p
-                      className={`text-2xl font-bold ${
-                        result.result === "Pneumonia"
-                          ? "text-red-600 dark:text-red-400"
-                          : result.result === "Infiltration"
-                          ? "text-yellow-600 dark:text-yellow-400"
-                          : "text-green-600 dark:text-green-400"
-                      }`}
-                    >
-                      {result.result}
-                    </p>
+                  className={`p-6 rounded-lg border-2 ${
+                    result.result === "Pneumonia"
+                      ? "bg-red-50 dark:bg-red-900/20 border-none dark:border-red-700"
+                      : result.result === "Infiltration"
+                      ? "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-700"
+                      : "bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700"
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="text-xl font-bold mb-1">
+                        Diagnosis Result
+                      </h3>
+                      <p
+                        className={`text-2xl font-bold ${
+                          result.result === "Pneumonia"
+                            ? "text-red-600 dark:text-red-400"
+                            : result.result === "Infiltration"
+                            ? "text-yellow-600 dark:text-yellow-400"
+                            : "text-green-600 dark:text-green-400"
+                        }`}
+                      >
+                        {result.result}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Confidence
+                      </p>
+                      <p className="text-3xl font-bold">{result.confidence}%</p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Confidence
+
+                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
+                    <h4 className="font-semibold mb-2">Model Analysis</h4>
+                    <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                      {result.modelExplanation}
                     </p>
-                    <p className="text-3xl font-bold">{result.confidence}%</p>
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
-                  <h4 className="font-semibold mb-2">Model Analysis</h4>
-                  <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
-                    {result.modelExplanation}
-                  </p>
-                </div>
+                <button
+                  onClick={handleNewUpload}
+                  className="w-full px-5 py-3 bg-[#E4794B] text-white rounded-lg hover:bg-[#d96835] font-medium transition cursor-pointer"
+                >
+                  Upload New X-ray
+                </button>
               </div>
-              {/*==================== End of Result Card ====================*/}
-
-              {/*==================== Action Button ====================*/}
-              <button
-                onClick={handleNewUpload}
-                className="w-full px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition"
-              >
-                Upload New X-ray
-              </button>
-              {/*==================== End of Action Button ====================*/}
-            </div>
-          )}
-          {/*==================== End of Results ====================*/}
-        </div>
-      )}
+            )}
+          </div>
+        )}
+      </div>
     </DashboardLayout>
   );
 }

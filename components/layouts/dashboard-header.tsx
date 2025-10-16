@@ -47,7 +47,10 @@ export default function DashboardHeader({
   return (
     <header className="w-full bg-[#e1e2ca] dark:bg-[#0a0a0ae0] shadow-sm px-6 py-4 flex justify-between items-center">
       <div className="flex flex-1 items-center gap-4">
-        <button onClick={onToggleSidebar} className="cursor-pointer">
+        <button
+          onClick={onToggleSidebar}
+          className="cursor-pointer hover:bg-[#d1d2ba] dark:hover:bg-[#1a1a1a] p-2 rounded-lg transition"
+        >
           <Menu className="text-[#E4794B]" size={22} />
         </button>
         {!isSidebarOpen && (
@@ -63,12 +66,12 @@ export default function DashboardHeader({
       </div>
 
       <div className="flex items-center w-fit gap-4">
-        <span className="text-sm text-[#202020] dark:text-white">
+        <span className="text-sm text-[#202020] dark:text-white font-medium">
           Team ITCA Vets
         </span>
         <button
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-          className="p-2 rounded-full bg-gray-200 text-[#E4794B] cursor-pointer dark:bg-[#e06a371e] transition hover:bg-gray-300 dark:hover:bg-[#e06a372a] "
+          className="p-2 rounded-full bg-gray-200 text-[#E4794B] cursor-pointer dark:bg-[#e06a371e] transition hover:bg-gray-300 dark:hover:bg-[#e06a372a]"
           aria-label="Toggle theme"
         >
           {resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
