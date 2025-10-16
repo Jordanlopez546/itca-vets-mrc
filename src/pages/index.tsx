@@ -15,7 +15,6 @@ export default function Overview() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
 
   const validateFile = (file: File): boolean => {
-    // Check file type
     if (!ALLOWED_TYPES.includes(file.type)) {
       toast.error("Invalid file type", {
         description: "Please upload a JPEG, PNG, or WebP image.",
@@ -23,7 +22,6 @@ export default function Overview() {
       return false;
     }
 
-    // Check file size
     if (file.size > MAX_FILE_SIZE) {
       toast.error("File too large", {
         description: `Maximum file size is 10MB. Your file is ${(
@@ -66,7 +64,6 @@ export default function Overview() {
       toast.success("Image uploaded successfully", {
         description: "Starting analysis...",
       });
-      // Start analysis immediately after upload
       analyzeImage(base64);
     };
     reader.readAsDataURL(file);
@@ -77,7 +74,6 @@ export default function Overview() {
     setProgress(0);
     setResult(null);
 
-    // Simulate AI analysis with progress updates
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 95) {
@@ -88,12 +84,10 @@ export default function Overview() {
       });
     }, 200);
 
-    // Simulate analysis completion after 4 seconds
     setTimeout(() => {
       clearInterval(progressInterval);
       setProgress(100);
 
-      // Simulate AI result (in real app, this would be from your model)
       const outcomes = [
         {
           result: "Pneumonia" as const,
@@ -165,7 +159,7 @@ export default function Overview() {
         Upload a chest X-ray image to detect pneumonia using our AI model.
       </p> */}
 
-      {/* Upload Zone */}
+      {/*==================== Upload Zone ====================*/}
       {!preview ? (
         <div
           onDrop={handleDrop}
@@ -197,7 +191,7 @@ export default function Overview() {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Image Preview */}
+          {/*==================== Image Preview ====================*/}
           <div className="border-2 border-gray-300 dark:border-gray-700 rounded-lg p-6 flex justify-center bg-white dark:bg-gray-800">
             <Image
               width={500}
@@ -207,8 +201,9 @@ export default function Overview() {
               className="max-h-96 rounded-md object-contain"
             />
           </div>
+          {/*==================== End of Image Preview ====================*/}
 
-          {/* Progress Bar */}
+          {/*==================== Progress Bar ====================*/}
           {isAnalyzing && (
             <div className="space-y-2">
               <div className="flex justify-between items-center">
@@ -227,11 +222,12 @@ export default function Overview() {
               </div>
             </div>
           )}
+          {/*==================== End of Progress Bar ====================*/}
 
-          {/* Results */}
+          {/*==================== Results ====================*/}
           {result && !isAnalyzing && (
             <div className="space-y-6">
-              {/* Result Card */}
+              {/*==================== Result Card ====================*/}
               <div
                 className={`p-6 rounded-lg border-2 ${
                   result.result === "Pneumonia"
@@ -271,16 +267,19 @@ export default function Overview() {
                   </p>
                 </div>
               </div>
+              {/*==================== End of Result Card ====================*/}
 
-              {/* Action Button */}
+              {/*==================== Action Button ====================*/}
               <button
                 onClick={handleNewUpload}
                 className="w-full px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition"
               >
                 Upload New X-ray
               </button>
+              {/*==================== End of Action Button ====================*/}
             </div>
           )}
+          {/*==================== End of Results ====================*/}
         </div>
       )}
     </DashboardLayout>
