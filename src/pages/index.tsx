@@ -165,7 +165,7 @@ export default function Overview() {
           onDrop={handleDrop}
           style={{ minHeight: "650px" }}
           onDragOver={(e) => e.preventDefault()}
-          className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg text-center cursor-pointer hover:border-blue-400 dark:hover:border-blue-500 transition flex items-center justify-center bg-white dark:bg-gray-800"
+          className="border-2 border-dashed border-[#3a3a3a49] dark:border-[#e4794b8c] rounded-lg text-center cursor-pointer dark:hover:bg-[#000000] transition flex items-center justify-center bg-[#e1e2c5] dark:bg-[#0c0c0c]"
         >
           <div>
             <p className="text-gray-500 dark:text-gray-400 mb-3">
@@ -183,9 +183,9 @@ export default function Overview() {
             />
             <label
               htmlFor="fileInput"
-              className="inline-block px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition"
+              className="inline-block border-ai-gradient font-bold text-[#111111] rounded-lg hover:bg-[#c9511e] cursor-pointer transition"
             >
-              Choose File
+              <p className="dark:text-[#000000] text-[#000000cb] my-3 mx-8">Choose File</p>
             </label>
           </div>
         </div>

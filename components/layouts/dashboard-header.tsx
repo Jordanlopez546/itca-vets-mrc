@@ -1,6 +1,8 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Moon, Sun, Menu } from "lucide-react";
+import PNEUOMONIASCAN from "/PNEUOMONIASCAN.svg";
+import Image from "next/image";
 
 export default function DashboardHeader({
   onToggleSidebar,
@@ -21,7 +23,7 @@ export default function DashboardHeader({
           <button onClick={onToggleSidebar} className="cursor-pointer">
             <Menu className="text-gray-700 dark:text-gray-200" size={22} />
           </button>
-          <h2 className="text-lg font-semibold">Dashboard</h2>
+          <Image width={200} height={200} src="/PNEUOMONIASCAN.svg" alt="Logo" className="h-8" />
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -34,21 +36,21 @@ export default function DashboardHeader({
   }
 
   return (
-    <header className="w-full bg-white dark:bg-gray-800 shadow-sm px-6 py-4 flex justify-between items-center">
-      <div className="flex items-center gap-4">
+    <header className="w-full bg-[#e1e2ca] dark:bg-[#0a0a0ae0] shadow-sm px-6 py-4 flex justify-between items-center">
+      <div className="flex flex-1 items-center gap-4">
         <button onClick={onToggleSidebar} className="cursor-pointer">
-          <Menu className="text-gray-700 dark:text-gray-200" size={22} />
+          <Menu className="text-[#E4794B]" size={22} />
         </button>
-        <h2 className="text-lg font-semibold">Dashboard</h2>
+        <img src="/PNEUOMONIASCAN.png" alt="Logo" className="h-8 mx-auto" />
       </div>
 
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-gray-500 dark:text-gray-400">
+      <div className="flex items-center w-fit gap-4">
+        <span className="text-sm text-[#202020] dark:text-white">
           Team ITCA Vets
         </span>
         <button
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition hover:bg-gray-300 dark:hover:bg-gray-600"
+          className="p-2 rounded-full bg-gray-200 text-[#E4794B] cursor-pointer dark:bg-[#e06a371e] transition hover:bg-gray-300 dark:hover:bg-[#e06a372a] "
           aria-label="Toggle theme"
         >
           {resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
