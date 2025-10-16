@@ -7,7 +7,7 @@ export default function DashboardHeader({
 }: {
   onToggleSidebar: () => void;
 }) {
-  const { theme, setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function DashboardHeader({
     return (
       <header className="w-full bg-white dark:bg-gray-800 shadow-sm px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <button onClick={onToggleSidebar}>
+          <button onClick={onToggleSidebar} className="cursor-pointer">
             <Menu className="text-gray-700 dark:text-gray-200" size={22} />
           </button>
           <h2 className="text-lg font-semibold">Dashboard</h2>
@@ -36,7 +36,7 @@ export default function DashboardHeader({
   return (
     <header className="w-full bg-white dark:bg-gray-800 shadow-sm px-6 py-4 flex justify-between items-center">
       <div className="flex items-center gap-4">
-        <button onClick={onToggleSidebar}>
+        <button onClick={onToggleSidebar} className="cursor-pointer">
           <Menu className="text-gray-700 dark:text-gray-200" size={22} />
         </button>
         <h2 className="text-lg font-semibold">Dashboard</h2>
@@ -47,11 +47,11 @@ export default function DashboardHeader({
           Team ITCA Vets
         </span>
         <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
           className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition hover:bg-gray-300 dark:hover:bg-gray-600"
           aria-label="Toggle theme"
         >
-          {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          {resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
         </button>
       </div>
     </header>
