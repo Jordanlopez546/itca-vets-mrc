@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
-import { Moon, Sun, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Moon, Sun, Menu } from "lucide-react";
 
 export default function DashboardHeader({
   onToggleSidebar,

@@ -1,7 +1,11 @@
 import Image from "next/image";
+import { toast } from "sonner";
 import { useState } from "react";
 import { AnalysisResult } from "../../types";
 import DashboardLayout from "../../components/layouts/dashboard-layout";
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 export default function Overview() {
   const [image, setImage] = useState<File | null>(null);
@@ -10,18 +14,46 @@ export default function Overview() {
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<AnalysisResult | null>(null);
 
+  const validateFile = (file: File): boolean => {
+    // Check file type
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      toast.error("Invalid file type", {
+        description: "Please upload a JPEG, PNG, or WebP image.",
+      });
+      return false;
+    }
+
+    // Check file size
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error("File too large", {
+        description: `Maximum file size is 10MB. Your file is ${(
+          file.size /
+          1024 /
+          1024
+        ).toFixed(2)}MB.`,
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      processFile(file);
+      if (validateFile(file)) {
+        processFile(file);
+      }
     }
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
-    if (file && file.type.startsWith("image/")) {
-      processFile(file);
+    if (file) {
+      if (validateFile(file)) {
+        processFile(file);
+      }
     }
   };
 
@@ -31,6 +63,10 @@ export default function Overview() {
     reader.onloadend = () => {
       const base64 = reader.result as string;
       setPreview(base64);
+      toast.success("Image uploaded successfully", {
+        description: "Starting analysis...",
+      });
+      // Start analysis immediately after upload
       analyzeImage(base64);
     };
     reader.readAsDataURL(file);
@@ -92,12 +128,25 @@ export default function Overview() {
       };
 
       // Save to localStorage
-      const history = JSON.parse(localStorage.getItem("pneumoHistory") || "[]");
-      history.unshift(analysisResult);
-      localStorage.setItem("pneumoHistory", JSON.stringify(history));
+      try {
+        const history = JSON.parse(
+          localStorage.getItem("pneumoHistory") || "[]"
+        );
+        history.unshift(analysisResult);
+        localStorage.setItem("pneumoHistory", JSON.stringify(history));
+      } catch {
+        toast.error("Failed to save to history", {
+          description: "Unable to save analysis to local storage.",
+        });
+      }
 
       setResult(analysisResult);
       setIsAnalyzing(false);
+
+      // Show result toast
+      toast.success("Analysis complete!", {
+        description: `Result: ${selectedOutcome.result} (${selectedOutcome.confidence}% confidence)`,
+      });
     }, 4000);
   };
 
@@ -111,33 +160,36 @@ export default function Overview() {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl font-bold mb-4">Overview</h1>
+      {/* <h1 className="text-2xl font-bold mb-4">Overview</h1>
       <p className="text-gray-600 dark:text-gray-400 mb-8">
         Upload a chest X-ray image to detect pneumonia using our AI model.
-      </p>
+      </p> */}
 
       {/* Upload Zone */}
       {!preview ? (
         <div
           onDrop={handleDrop}
+          style={{ minHeight: "650px" }}
           onDragOver={(e) => e.preventDefault()}
-          className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg text-center cursor-pointer hover:border-blue-400 transition flex items-center justify-center"
-          style={{ minHeight: "400px" }}
+          className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg text-center cursor-pointer hover:border-blue-400 dark:hover:border-blue-500 transition flex items-center justify-center bg-white dark:bg-gray-800"
         >
           <div>
             <p className="text-gray-500 dark:text-gray-400 mb-3">
               Drag & Drop an X-ray image here or click below
             </p>
+            <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+              Supported formats: JPEG, PNG, WebP (Max 10MB)
+            </p>
             <input
               type="file"
               id="fileInput"
-              accept="image/*"
               className="hidden"
               onChange={handleFileChange}
+              accept="image/jpeg,image/jpg,image/png,image/webp"
             />
             <label
               htmlFor="fileInput"
-              className="inline-block px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
+              className="inline-block px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition"
             >
               Choose File
             </label>
@@ -223,7 +275,7 @@ export default function Overview() {
               {/* Action Button */}
               <button
                 onClick={handleNewUpload}
-                className="w-full px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
+                className="w-full px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition"
               >
                 Upload New X-ray
               </button>
