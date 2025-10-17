@@ -9,7 +9,7 @@ export default function UploadDropzone({
     <div
       onDrop={onDrop}
       onDragOver={(e) => e.preventDefault()}
-      className="h-full w-full border-2 border-dashed border-[#e4794b8c] dark:border-[#e4794b8c] rounded-xl text-center cursor-pointer hover:border-[#E4794B] dark:hover:border-[#E4794B] hover:bg-[#e4794b0a] dark:hover:bg-[#e4794b0a] transition-all flex items-center justify-center bg-[#f6f6ed] dark:bg-[#0c0c0c]"
+      className="h-full w-full border-2 border-dashed border-[#e4794b8c] dark:border-[#e4794b8c] rounded-xl text-center cursor-pointer hover:border-[#E4794B] dark:hover:border-[#E4794B] hover:bg-[#e4794b0a] dark:hover:bg-[#e4794b0a] transition-all flex items-center justify-center bg-transparent dark:bg-[#0c0c0c]"
     >
       <div className="flex flex-col items-center gap-6 px-8">
         <div className="w-20 h-20 rounded-full bg-[#e4794b1a] dark:bg-[#e4794b2a] flex items-center justify-center">

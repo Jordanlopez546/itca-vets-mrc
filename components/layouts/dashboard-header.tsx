@@ -45,7 +45,7 @@ export default function DashboardHeader({
   }
 
   return (
-    <header className="w-full bg-[#f7f7ed] dark:bg-[#1a1a1a] px-6 py-4 flex justify-between items-center">
+    <header className="w-full bg-[#f8f8e7] dark:bg-[#292929] px-6 py-4 flex justify-between items-center">
       <div className="flex flex-1 items-center gap-4">
         <button
           onClick={onToggleSidebar}
