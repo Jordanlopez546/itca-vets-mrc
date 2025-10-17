@@ -34,15 +34,15 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-2 py-5 space-y-2">
+        <nav className="flex-1 overflow-y-auto px-2 py-5 space-y-6">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`flex dark:text-[#acacac] text-[#000000b2] items-center gap-3 px-4 py-2 rounded-lg transition ${
+              className={`flex dark:text-[#acacac] text-[#000000b2] items-center gap-3 px-4 py-3 rounded-lg transition ${
                 router.pathname === link.href
-                  ? "dark:bg-[#1d1d1d] bg-[#e4794b54] text-sm text-[#E4794B]"
-                  : "text-sm hover:bg-[#e4794b3b] dark:hover:bg-[#131313]"
+                  ? "dark:bg-[#1d1d1d] bg-[#e4794b54] text-[1.15rem] text-[#E4794B]"
+                  : "text-[1.15rem] hover:bg-[#e4794b3b] dark:hover:bg-[#131313]"
               }`}
             >
               {link.icon}
