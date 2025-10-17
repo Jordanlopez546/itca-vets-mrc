@@ -21,7 +21,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       )}
 
       <aside
-        className={`fixed z-50 bg-white dark:bg-[#1a1a1a] shadow-md transition-transform duration-300 h-screen w-64 flex flex-col
+        className={`fixed z-50 bg-[#e1e2ca] dark:bg-[#1a1a1a] shadow-md transition-transform duration-300 h-screen w-64 flex flex-col
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="p-6 flex justify-between items-center dark:border-gray-700">

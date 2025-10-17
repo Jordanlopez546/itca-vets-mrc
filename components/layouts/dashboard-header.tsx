@@ -19,7 +19,7 @@ export default function DashboardHeader({
 
   if (!mounted) {
     return (
-      <header className="w-full bg-white dark:bg-gray-800 shadow-sm px-6 py-4 flex justify-between items-center">
+      <header className="w-full bg-white dark:bg-gray-800 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
           <button onClick={onToggleSidebar} className="cursor-pointer">
             <Menu className="text-gray-700 dark:text-gray-200" size={22} />
@@ -45,7 +45,7 @@ export default function DashboardHeader({
   }
 
   return (
-    <header className="w-full bg-[#e1e2ca] dark:bg-[#1a1a1a] shadow-sm px-6 py-4 flex justify-between items-center">
+    <header className="w-full bg-[#e1e2ca] dark:bg-[#1a1a1a] px-6 py-4 flex justify-between items-center">
       <div className="flex flex-1 items-center gap-4">
         <button
           onClick={onToggleSidebar}
